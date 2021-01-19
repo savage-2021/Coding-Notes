@@ -1,0 +1,11 @@
+The Difference between Concurrency and Parallelism
+
+- Difference between concurrency and parallelism turns unto a very powerful abstraction when modeling your code, that go takes advnatage of
+    -> Concurrency is a properpty of code; parallelism is a property of the running program
+    -> If you run code on a machine with only one core, it will run sequentially, no matter if the code was written concurrently
+    -> The CPU context switches to share time between different programs, and makes it appear that the program is runing in parallel 
+    -> We do not write parallel code, only concurrent code that we hope wil run in parallel
+    -> Atomicity; the bounds by which two or more operatinos could be considered parallel 
+- Why is concurrency hard?
+    -> Race conditions, deadlocks, livelocks, and starvation
+- Go's concurrent primatives
