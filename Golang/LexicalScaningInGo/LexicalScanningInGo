@@ -16,3 +16,5 @@ Structural Mismatch
     - The token emitter 
         -> A token is a type and a value, but the value can just be sliced from the input string
         -> The lexer remembers where it is in the input and the emit routine just lobs that substring to the caller as the token's value 
+
+
