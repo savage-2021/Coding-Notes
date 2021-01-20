@@ -1,0 +1,18 @@
+Structural Mismatch
+    - Many programming problems realign one data structure to fit another structure
+        -> breaking text into lines
+        -> blocking and deblocking
+        -> parsing
+        -> Lexing 
+    - Coroutines were invented to solve this problem
+        -> they enable us to write the two pieces indepdently 
+    - In this exmaple, we're making a Lexical Scanner (a new template system)
+    - The concurrent Step
+        1) How do we make tokens available to the client 
+        2) Tokens can emerge at times that are inconvenient to stop to return to the caller
+        3) By using concurrency, we run the state machine as a goroutine, and emit values ona  channel
+    
+
+    - The token emitter 
+        -> A token is a type and a value, but the value can just be sliced from the input string
+        -> The lexer remembers where it is in the input and the emit routine just lobs that substring to the caller as the token's value 
