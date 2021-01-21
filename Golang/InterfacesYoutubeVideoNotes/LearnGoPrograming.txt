@@ -1,0 +1,8 @@
+- If something moves liek a duck, and swims liek a duck, then it is a duck (duck typing)
+- If an object satisfies an interface's methods, then we say it is of that type's interface 
+- An interace is a protocol, it is an abstract type
+- Interfaces decouple different types from each other 
+    -> The types don't need to know anything about each other, except the interface
+- Opposite of abstract types, are concrete types
+- the bigger the interface, the weaker the abstraction
+- You can compare interface values with other values

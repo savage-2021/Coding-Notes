@@ -1,0 +1,12 @@
+https://www.youtube.com/watch?v=lh_Uv2imp14&ab_channel=TechWithTim
+
+- Very important and powerful inside any typed languages 
+- An interfce is a way of looking at a set of related objects or types
+- Its a way of abstracting groups of types, into another datastructure
+- WHen trying to access a slice of a number of interfaces, you can only access the interface's methods, not the types in it
+    -> We look a objects in the interface lens, not the type lens 
+- You can use interfaces as any types, parameter types, map types, etc.
+- Its good practice to always pass the pointer when making a datastrucre of interfaces, just because if you need access to the pointer 
+    you have it, and you can still access the methods
+- OBjects can implement as many interfaces as you want 
+    -> 

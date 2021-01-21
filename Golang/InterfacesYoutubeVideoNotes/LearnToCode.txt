@@ -1,0 +1,25 @@
+https://www.youtube.com/watch?v=gfoVLXQ5ujM&ab_channel=LearnToCode
+
+- Interfaces allow us to do polymorphism
+- Allow us to define behaviour
+- Go format when creating obejcts: {keyword} {identifier} {type}
+- A value can be of more than one type (in our code, sa1 is of value secretAgent, and of type human)
+- the functino bar in the code, can take in different types, and this is polymorphism in Go
+- In the documenntation
+    -> Type Writer
+    -> this is an interace that has to implement the Write functionality
+    -> this allows any other funciton to take any type of variable, that has Write functionality
+        -> ResponseWriter, BufferedWriter etc
+- Interface; "If you've got these methods, then you're my type"
+- Conversion:
+
+- Assertion: asserting something is of a certain type
+    -> Can be used on a function, dependent on different types
+    -> Yses the x.(type) functionality
+    -> When you have an interface, and you need to get back to the ocncrete type of that interface, you 
+        assert on its type in a switch statement, to get back back to its methods
+
+- Empty Interface 
+    -> Everything implemeents the type empty interface 
+    -> If something in Go asks for the empty interface, every valye can be put in there
+    -> An exmpale of this is the fmt.Println function
