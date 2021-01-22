@@ -1,0 +1,25 @@
+- Go's big selling point is concurrency support 
+- Concurency != Parallesism
+- Concurency is about breaking up a program into independent parts, that could potentially run at the same time
+    -> And still getting the right result at the end 
+- A concurrent program has the potential to run in parallel 
+- WaitGroups can be used to keep track of goroutines 
+    -> Doens't do any magic, basically up to me to increment it, just a counter at the end of the day
+    -> You can create an annoymous funciton around the goroutine, which can then keep contorl of the WaitGroup 
+        so that its the anno function's responsibility instead of the goroutines
+    -> wg.Wait() will block until there are no more goroutines (when the counter is at 0)
+- Channels are a way for goroutines to communicate with each other
+    -> Use them as arguments
+    -> arrow into channel means send a message on this channel
+    -> sending and receiving and blockign operaations
+    -> Blocking nature of channels is used to synchronise goroutines 
+        -> Communicating and synchronising
+    -> TO stop deadlock, the goroutine can close the channel
+    -> A receiver should never close the channel, as they never know when the sender has stopped sending
+    -> You can't have a channel talk to the same gortine thaat sends and receives, as this would block
+        -> To stop the blocking, you can use a buffered channel
+- Select statement
+    -> Allows you to receive from whatever channel is ready 
+    -> This stops channels blocking each others
+- Worker pools:
+    -> A common concurrency pattern
