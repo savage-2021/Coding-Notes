@@ -1,0 +1,276 @@
+https://golang.org/doc/effective_go.html
+
+* Introduction
+    - A new language, borrows properties that make it slightly different, cant be translated from C++ or Java effectively
+    - Go pakcage sources are intended to serve as a core library, but also as an exapmle on how to use the langauge
+        - Example here: https://golang.org/pkg/strings/#example_Map
+
+* Formatting
+    - gofmt will line up columns in structs etc
+    - all code in go standard pakcages have been formmated with gofmt
+
+* Names
+    - The visibility of a nem outsied a package is determined by if the firsts character is upper case of not 
+    - Package names:
+        - short, concise, evocative
+        - lowercase, single word names, no underscores, or mixedcaps 
+        - package name is only the default name for imports, so don't worry about collisions
+        - package name is the base name of its source directory
+    - Getters:
+        - Go doesn't provide support for getters and setters
+        - If yu have a field called owner (lowercase and .:. unexported), the getter method should be called Owner, not GetOwner
+            owner := obj.Owner()
+            if owner != user {
+                obj.SetOwner(user)
+            }
+    - Interface names
+        - By convention, one method interfaces are named by the method name, pluer an -er suffic or similar modification
+        - Examples: Reader, Writer, Formatter,... 
+    - Mixed Caps: Use MixedCaps or mixedCaps insgead of underscores 
+
+* Semicolons
+    - Lexer automatically inserts Semicolons
+    - Only have semicolons in plces such as for loops, to separate the initalisaer etc, or if you want multiple statements on one line
+
+* Control Structures
+    - no do, or while loops
+    - IF 
+        - braces are mandatory
+        - IF statements accept an initalisaer statement, so its a common place to set a variable (like err)
+            if err := file.Cmod(0664); err != nil {
+                fmt.println(err)
+                return err
+            }
+    - FOR 
+        - 3 types 
+            // C For
+            for i := 0; i < 10; i++ {
+                sum += 1
+            }
+            // C While 
+            for key, value:= range m {
+                fmt.Println(key)
+            }
+            // you can use the blank idenitifer it you just want the key, or want just the vlaye
+    - Switch
+        - The expressiosn don't need to be constants or even integrers, and cases are evalusated top to bottom until a match is fonud 
+        - You sometimes need to break out of a swithc into a loop above, you can label what youw ant to break out to, like 
+            $ Loop:
+                for a := range m {
+                    switch {
+                        case a == 1:
+                            break Loop
+                    }
+                }
+        - Type switch
+            - can be used to find the type of a variable
+            - t.(type)
+            - Can be used in a switch statement to asert the type
+* Functions
+    - Multiple return values
+        - Useful for returning errors
+    - Named retuslt parameters 
+        - the return parameters of a Go functuon can be given names and used as regular variables, just like the incomming parameters 
+        - When named, they are initalised to zero
+        - Not mandatory, but they make the code shorter and clearer
+        - Initalised when the function starts obviously
+    - Defer 
+        - Schedules a functino call to be run immediately before the functino executing the defer returns
+        - Its an unusual but effective way to feal with sitations such as resources which must be released
+            -> Unlockig a mutext or closing a file
+        - Has 2 advantages:
+            1) Guarantees that you will never forget to close a file (an easy mistake)
+            2) It means the Close sits near the Open, which helps keep things clear
+        - Arguments given to defer are evaluated when the defer statement is run
+
+* Data
+    - Allocation with new 
+        - GO has two allocation primatives, 
+            -> new and make 
+        - They do different things, and apply different types, but the rules are simple 
+        - new allocates memory, but it does not initalize the memory, it only zeros it 
+        - new returns a pointer to a newly allocated xero value of type T 
+        - Since the memory returned by new is zeroed, its helpful to arrange when designing your data structures that the xero value 
+            of each type can be used without further initalization 
+        - This means a user of the data structure can create one with new, and get right to work
+        - The zero valye is a usefl property works transitively 
+    - Constructors and Composite literals 
+        - Somtimes zero values aren't enough, and an initalixing constructor is necessary 
+        - Composite literal: an expression which creates a new instance each time its evaluated 
+        - Its perfectly OK to return the address of a local variable; the storage assoicated with the variable survives after the 
+            function returns
+        - Taking the address of a composite literal allocates a fresh instance each time it is evaluated, so it can be combined 
+            -> $ return &File{fd, nbame, nil, 0}
+        - The fileds of a composite literal are laid out in order and must all be present, but if you label them explicitly, they 
+            can appear in any order, and the missing fields will be initalised to zero 
+    - Allocation with make 
+        - the build in function make(T, args) servers s different purpose from new(T)
+            -> it creates slices, maps, and channels only
+            -> and it returns intisalised (not zeroed) value of type T (not *T)
+        - This is because T represents a reference to a data structure that myst be initalised befor use 
+    - Arrays 
+        - Primaryily used as the buildling blocks for slices 
+        - Major Differences between how arrays in C and Golang work
+            -> Arrays are values. Assigning one array to another copies all the elements
+            -> If you pass an array to a function, it will receive a copy of the array, not a pointer to it
+            -> The size of an array is partt of its type [10]int and [20]int are distinct 
+            -> The value property can be usefyul, but also expensive; if you want C-like behaviour and efficiency, you can pass a pointer
+                to an array, but this style isn't idiomatic, and you should juse slices instead 
+    - Slices 
+        - Slices wrap arrayd to give a more general, more powerful and concenient interfface to sequences of data 
+            -> Most array programing in goalgn is done with slices instead of arrays 
+        - Slices hold references to an underlying array, and if you assign one slice to another, both refer to the same array 
+        - Passing a slice to a function is similar to passing a pointer to a function, the result will be apparent to the caller 
+        - The length of a slice may be changed so long as it still first within the limits of the underlying array 
+        - The capacity it the maximum length the slice may consume, if data exceeds capacity, the slice is reallocated, the resulting 
+            slice is returned
+    - Two Dimensional Slices 
+    - Maps 
+        - BUilt in data structure that associate values of one type with values 
+        - The key can be of any type for which the equality operator is defined 
+            -> Slices cannot be defined on them since they don't have the equality operator 
+        - Like slices, maps hold references to an underlying data structure 
+            -> If you pass a map to a function that changes the contents of the  map ( likea pointer, its visible to the caller)
+        - Maps can be made from the composite literal syntax 
+        - A zero (false) is returned when a key is called that hasn't be set in the map 
+            -> if you need to differentiate between an actual value being zero, and if its just false, use a comma idiomatic
+                seconds, ok = timeZone[tz]
+        - To test to see if a key lives inside a map, you can just use the blank identifier
+    - Printing 
+        - Similar to C, but much more richer
+
+* Initalisation 
+    - Initalisation in Go is more imposttant and powerful than in C 
+        - Constants
+            -> Created at compile time (can only be ints, runes, strings, or booleans )
+                -> Can't be a function call which returns an int however, even if the functino is pure 
+            -> Enumerated constants area created using the iota enumerator
+                const (
+                    _  = iota // ignore the first value 
+                    KB = 1 << (10 * iota)
+                    MB
+                    GB
+                )
+        - Variables can be initalised just liek constants, but the inializer can be a general expression compuled at run time
+        - Init function
+            -> Each source file can have is own niladic init function, which can be used to set up a program before execution beigns
+            -> this function will be run as soon as the file is made it seems 
+
+* Methods 
+    - Pointers vs Values
+        -> Methods can be defined for any anmes type, except a pointer or an interface 
+        -> By making it take a pointer, instead of the type, we dont have to return anything
+            which makes it less clumsy! 
+        -> Pointer methods can only be invoked on pointers, but value methods can be invoked on values and pointers
+            -> Pointer methods can modify the receiver; invoking them on a value would calse the method to receive a copy of the value 
+                so any modifications would be discared. (Golang disallows this mistake)
+        -> useful with pointer methods to play around with them, so that the fit an interface 
+
+* Interfaces and other types
+    - Interfaces in Go providfe a way to specify the behaviour of an object: if something can do this, then it can be used here 
+    - Interfaces with only one or two methods are common in Go code, and are usually given a name derived from the method 
+        -> Usually given a name derived from the method (Writer for Write struct)
+    - A type can implement multiple interfaces  
+    - Conversions: 
+        -> If two types are the same if we ignore the type name, its legal to convert between them 
+        -> Mad, but if their structs have the same varirables, and they both implement the same interface, you can convert between
+            the two one way (to superset a type, but not back)
+    - Type Assertions:
+        -> Using switch statments, you can have a function, which takes an interface, but then by switching on the type, you can get 
+            back to the original type
+        -> This is liek the opposite of conversions, because instead of supersetting up, you can subset down this way. mad 
+
+* Generality 
+    - If a type exists only to implement an interace and will never have exported methods that go beyond that interface, there is 
+        no need to export the type itself 
+    - Exporting just the interface makes ti clear the vlaye has no interesting behaviour beyond what is described in the interface 
+    - In such cases, he constructor should just return an interface valye rather than implementing the type 
+    - Interfaces and methods 
+        - Since almost anything can have methods attached, almost anything can satisfy an inteerface 
+            -> http package, defines the Handler interface 
+            -> Any object that inlements Handler can server HTTP requests 
+* The Blank Identifier  
+    - Assigned or decalred for any value of any type where the value can be discareded harmlessly 
+    - Good to use in if statements 
+        if _, err : os.Stat(path); os.IsNotExist(err) {
+            fmt.Println(err)
+        }
+    - Occasinally, you'll seee code that discars the error valye in otder to ignore the error; this is terrible practice.
+    - Always check error returns; they're provided for a reason 
+    - Unused imports and variables 
+        - Its an error to import or decalre a variable without using it, unused imports bloat the program and slow cimpilation 
+    - import for side effect 
+        - use a blank import to import a package only for its side effects 
+        import _ "net/http/pprof" 
+    - Interface Checks 
+        -> A type need not declare explicitly that it implements an interface, instead a type implements the interface just by implementing it
+        -> Most interface conversions are static, and therefore checked at compile time 
+        -> Some interface checks do happen at runtime 
+            -> encoding/json package; defines a marshaller 
+        -> If its necessary only to ask whether a type implements an interface, without checkig the interface itself, perhaps as part of 
+            an error check, use the blank identifier to ifnore the ty[e asserted value:
+                if _, ok := val.(json.Marshaler); ok {
+                    fmt.Println("implements it")
+                }
+* Embedding 
+    - Golang doesn't have subclasses, but it does have the ability to borrow pieces of an implementation by embedding types within 
+        a struct of interface 
+    - Interface embedding is very simple 
+        -> Only interfaces can be embedded within other interfaces 
+        -> 
+            type Reader interface {
+                Read
+            }
+            type Writer interface {
+                Write
+            }
+            type ReadWriter interface {
+                Reader
+                Writer
+            }
+        -> ReadWriter is a union of the embedded interfaces
+* Concurrency
+    - Share by communicating 
+        -> Shared values are passed around on channels and, in fact, never actively shared by separate threads of execution 
+        -> Only one goroutine has access to the value at any given time 
+        -> Data races cannot occur by desig
+        -> "Do not communicate by sharing memory; share memory by communicating" 
+        -> One way to think about this model is to consider a typical single threaded program, running one cpu 
+            -> It has no need for synchronization primitives 
+            -> Now run another such instance, and theres still no need for other synchronixation 
+            -> Unix pipeline fit this model perfectly, but Go's origins actually come from Hoare's CSP work 
+    - Goroutines 
+        -> Has a simple mode: it is a function executing concurrently with other goroutines in the same address space 
+        -> It is lightweight, costing little more than the allocation of stack space 
+        -> Stacks start small, so they are cheap, and they grow by allocating (and freeing) heap storage as required
+        -> They are multiplexed onto multiple OS threads, so if one sohuld block, such as waiting for I/O, others continue 
+            to run.
+        -> Their design hides many of the complexities of thread creation and management 
+    - Channels 
+        -> Channels are allocated with make, and the resulting value acts as a reference to an underlying data structure 
+        -> Channels combine communication with synchronization 
+        -> Receivers always block untile there is data to receive, so if a channel is unbuffered, the sender blocks until the receiver 
+            has reveived the value, if the channel has a buffer, the seender blocks only until the valye has been copied to the buffer
+        -> A buggered channel can be used like a semaphore, for instance, to limit throughput 
+            -> The capacity of a channel buffer limits the bumbre of simultaneous calls to process 
+        -> Channels are first class citizens, so you can get channels of channels 
+            -> A common use of this property is to implement safe, parallel demultiplexing 
+    - Parallelization 
+        -> If a calculation can be broken into separate pieces that can execute independdently, it can be parallelixed, with a channel 
+            to signal when each piece is complete
+* Errors 
+    - By convention, Errors have type error, a simple built-in interface 
+
+    - Panic 
+        -> The usual way to report an error to a caller is to return an error as an extra value 
+        -> If an error is unrecoverable, then there is a built in function called panic, that in effect, creates a runtime 
+            error that will stop the program. 
+        -> Real library functino shuold avoid panix, if the problem can be masked or worked around, its always better to continue 
+            to allow things to run rather than taking down the whole problem
+    - Recover 
+        -> When panic is called, it immediately stops execution of the current function, and begins unwinding the stack of the goroutine 
+            running any defered functions along the way 
+        -> However, it is possible for the built in function to regain conrol of the goroutine and resume normal execution 
+        -> One application of recover is to shut down a failing goroutine inside a server without killing the other executing goroutines 
+        
+        
