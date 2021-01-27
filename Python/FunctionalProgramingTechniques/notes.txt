@@ -1,0 +1,39 @@
+What is functinoal Programing
+
+*Functional pgraming is used a lot in distributed systems 
+    -> MapReduce, straight form functional world into distributed systems 
+*Python is not a functional language 
+    -> Some aspects are functional 
+    -> Functions are first class objects 
+    -> Functions are objects, that you can execute, just think of them as regular objects
+*Sorting Function 
+    -> Built in function 
+    -> Pythons sorting happens via Timsort (combo of inertsort and merge sort)
+        -> Assumes the list is not completely unsorted, but some parts are already sorted 
+    -> Gives us back a new list in sorted order 
+        -> Capital letters come before lowercase, because of ASCII and Unicode 
+        -> To stop this, why don't we use a function(A) to compare against function(B) instead of their UNicode characters 
+        -> A funcitonal tehcnique, is that the function(A) and funciton(B) can just take A = A.toLowerCase(A), and this will
+            sort all on lowercase, but without affecting the original string, so its powerful, and will fix the uppercase letter 
+            $ sorted(words, key=str.lower)
+        -> The function on each param to be sorted is only stored once, and the function result is cached probably 
+    -> Stable sort -- things that have the same sort valye will not be reordered in our result list
+    -> Return a tuple to get the effect of two functions. like if you wanted to sort on both the furst characer and second
+    -> When you create a funciton, you do two things, you create a funciton and assign it 
+        -> You can split that up, into two things, by creating an annon function 
+    -> Use lambda to create a onetime inline function that you can then pass
+
+* Dispatch Table 
+    def a():
+        return 'I am in A'
+    def b():
+        return 'I am in B!'
+    
+    while True:
+        choice = input('Enter your choice: ').strip()
+        if not choice:
+            break
+        if choice in choices: 
+            print(choices[choice]())
+        else:
+            print(f'Choice {chioce} is not valid)
