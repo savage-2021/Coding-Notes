@@ -1,0 +1,9 @@
+Composite Types
+
+Aggregate Types
+    - Structs, Arrays 
+    - Their elements all have the same type, whereas structs aare hetergeneous 
+    - Both arraays aand structs are fixed size 
+
+    Arrays:
+        - Rarely used in go due to their fixed size
