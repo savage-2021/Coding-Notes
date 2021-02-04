@@ -1,0 +1,2 @@
+In Golang, an object is simpley a value or variable that has methods
+- The two takeaaways golang has on object orientated programing is encapsulation and composition
