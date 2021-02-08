@@ -1,0 +1,4 @@
+https://www.youtube.com/watch?v=Ppw5UluP2R8&ab_channel=LearnToCode
+
+- tcp is the network, http is the protocol
+- http is jsut a bunch of rules for how we send stuff 

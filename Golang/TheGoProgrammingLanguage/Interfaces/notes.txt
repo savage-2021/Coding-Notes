@@ -1,0 +1,46 @@
+- Interfaces taypes express generalisations or abstractions about the behaviours or other types 
+- By generalising, interfaces let us write functinos that are more flexible and adaptable because they are not tied to the details 
+of one implementation 
+- Interfaces are satisfied implicitly in Golang
+    -> There is no need to declare all the interfaces that a given concrete type satisfies, simply posessing the necessary methods is enough 
+- This design lets you create new itnerfaces that are satisfied by existing concrete types, without chaging the existing types 
+    -> Useful for types defined in packages that you don't control
+
+7.1 Interfaces as Contracts
+- All types looked at so far, have been concrete types 
+- A concrete type specifies the exact representation of its valyes and exposes the intrinsic operations of that representation 
+- An abstract type in Go, is of interface type 
+    -> It doesn't expose the representational or internal structure of its valyes, or the set of basic operations they support
+    -> It only revleals a set of methods 
+    -> Given an interface type, you know nothing about what it is, you know only what it can do, what behaviours are provided by its methods 
+
+Printer 
+    - F prefix of Fprintf stands for file 
+
+Interface Types 
+    - An interface type specifies a set of methods that a concrete type must posses to be considered an instance of that interface 
+
+Embedding 
+    - Like structual embedding, you can do interface embedding 
+    - The order in which they appear doesn't matter
+
+Interface Satisfaction 
+    - A type satisfies an interface if it possesses all the methods the interface requires
+    - So you can let things of different types equal each other, if they implement the same methods, share an interface
+    - T may not possess all the methods *T does, and as such, might satisy fewer interfaces
+    - Like how an envelope wraps and seals the letter it holds, an interface wraps and concelas the concrete type and value that it holds
+        -> Only methods revelaled by the interface type may be called, even if the concrete type has otheres
+    - Empty Interface 
+        -> Tells us nothing about the type. Its indespensible 
+        -> Because the empty interface type places no demands on the theypes that satisfy it, we can assign any cvalue to the empty interface 
+
+Parsing Flags with flag.value
+    -> flag.value is another interface that helps us define new notations for command-line flags
+Instance Valyes 
+    -> A value of interface type or interface value, has two components, a concrete type, and a value of that type 
+    -> These are called the  interface's dynamic type and dynamic value 
+    -> For a statically typed language like Go, types are compule tyme concept, so a type is not a value 
+    -> In our conceptual model, a set of value called type descriptors provide informatino about each type, such as its name and methods 
+    -> In Go, variables are always initalised to a well defined value, and interfaces are of no exceptions 
+    -> Interface values may be compared using == and != 
+        -> Because they are comparable, they may be used as the keys for maps  

@@ -1,2 +1,16 @@
 In Golang, an object is simpley a value or variable that has methods
 - The two takeaaways golang has on object orientated programing is encapsulation and composition
+
+Bit Vector Type
+Sets in Go are usually implemented as a map[T]bool, where T is the elemenet type 
+A set represented by a map is very flexible, but, for certain problems, a specialised representation may outperform it 
+    -> Dataflow analysis where set elements are small non-negative integers, sets have many elements, and operations like unioin
+        a bit vector is ideal
+
+Encapsulation 
+- A variable or method of an object is said to be encapsulated if it is inaccessible to clients of the object 
+- Encapsulation is someitme called informatino hiding 
+- Go has only one mechanism to control the visibility of names: Capitalised identifiers are exported from the package in which they
+    are defined, and uncapitalised names are not 
+- The same mechanism that limits access to members of a package also limits access to the fileds of a struct of the methods of a type 
+- As a consequence, to encapsulate an object, we must make it a struct 

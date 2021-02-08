@@ -1,0 +1,23 @@
+Python Packages vs Modules
+- sys.path tells us where to go and where to look
+- package is a directoy containing python modules 
+
+
+Execise:
+    1) Create a package called mypackage
+    2) Create two modules inside this package 
+    3) 
+
+PyPI: Python Package Index 
+    -> Python Distributions
+    -> Metadata is the ditributions 
+        -> Distribution > Package > Module 
+    -> Download stuff from here using pip 
+    -> Can be found in your site ppackages directory
+    $ pip install --user mimesis
+PyPy: Anotehr version of Python, with a JIT compiler
+
+To distribute paackages on PiPY
+-> twine to tie up package
+-> toml.io
+-> poetry describes the project

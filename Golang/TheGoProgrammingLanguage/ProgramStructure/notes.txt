@@ -1,0 +1,16 @@
+Names:
+    - The larger the scope of the variable, the longer the name is a go convention
+    - Camel case is most common
+Declarations:
+    - 4 types: var, const, type, func 
+Pointer:
+    - are key to the flag package, which use's a programs command line arguments to set the vales of certian variable
+New Function:
+    - Another way to create a variable is to use the built-in function new 
+    - The expression new (T) creates an unamed variable of type T, initalises it to the zero value of T, and returns its address
+        which is of type *T 
+Lifetime:
+    - when variables become unreachable, their memeory is recyled
+Types Declaration:
+    In any program there are variables that share the same representation but signify very different concepts 
+    A type declaration defaines a new named type that has the methods associated with them 

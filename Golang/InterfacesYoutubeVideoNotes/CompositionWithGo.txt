@@ -1,0 +1,16 @@
+https://www.ardanlabs.com/blog/2015/09/composition-with-go.html
+
+- Composition goes beyond the mechanics of type embedding 
+    -> Its a paradigm of building a larder program from smaller parts
+- Starts with decalring types that have a single purpose 
+- Use structs to maintain state
+- Declare the set of behaviours as discrete interface types first, the think about how they can be cmoposed into a larger set of behaviours
+- Make sure each function or method is very specific about the interface types they accept. Only accept interfaces types for the behavviour
+    you are using in that function or method. This will help dictate the larger interface types that are required
+- Think about embedding as an inner and outer type relationshuip. Remember that through inner type promotion, everything that is declared
+    in the innter type is promoited to the outer type. However, the inner type valye exists in and of itself as is always accessible based 
+    on the rules for exporting
+- Type embedding is not subtyping nor subclassing. 
+    Concrete type valyes represent a single type, and can't be asinged based on any embedding relationship
+- The compiler can arrange inerace conversions between related interface values
+    - INterface conersion, at compile time, doesn't care about concrete types

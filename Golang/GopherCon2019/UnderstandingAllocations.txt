@@ -1,0 +1,38 @@
+The Stack and the Heap
+
+Jacob Walker
+
+Comparing it to C memory
+- Goroutines each have a stack 
+How do i know if my vairable lives on the stack or the heap?
+    -> you don't 
+    -> It doesn't matter in Golang for correctness, but it does affect performance 
+        -> Anything on the heap is managed by the garbage collector, and the GC is very good, but it causes latency 
+    -> Optimise for correctness fiest, not performance 
+    -> functions get their own stack frames 
+    -> Stacks are self cleaning
+    -> Sharing down, typically stays on the stack.
+        -> This means passing pointers or references to things 
+    -> Sharing Up, typically escapes to the heap 
+        -> retuning pointers, or returning things that have pointers in them
+        -> Only the compiler nknows, theres no way to force it menually
+        -> memory of variables escape to the heap, this happens at compile time 
+        -> When possible, the go compiler will allocate variables that are local to a function in that funcitno's stack frame 
+            -> However, if the compiler cannot prove that the variable is not referenced after the funciton returns, then the compuler
+                must allocatte the variable on the garbage-collected heap to avoid dangling pointer errors
+            -> Escape Analysis = Go compiler can't prove its not used outside this function (past the function reutnr point)
+        -> Variables aren't just on the stack, they are on a stack frame used by a particular function 
+        -> If the compiler determines that the value is too large to fit on the stack, or can't determine the size of the value, it'll 
+            add it to the staack
+        -> Strings are essnetially a special slice of bytes
+    -> This explains why the io.Reader interface is the way that it is
+        -> The reader function passes a string of bytes as an argument, instead of creating it
+            -> This is so that Reader function, doesn't acreate a slice of bytes, that would have to be accessed after 
+                the function returns, and therefore reduces the heap allocations
+    -> POints to rememebr
+        -> optimise for correctness not performace
+        -> only puts variables on the stack, if it can prove its not used after the function is returned
+        -> sharing down typically stays on the heap, sharing up typically escapes to the heap 
+        -> Ask the compiler to find outside
+        -> Use tools 
+        -> Think of correctness, and clarity point of view, instead of performance alwaus 

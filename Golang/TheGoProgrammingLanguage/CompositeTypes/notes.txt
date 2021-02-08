@@ -7,3 +7,18 @@ Aggregate Types
 
     Arrays:
         - Rarely used in go due to their fixed size
+        - len returns the number of elements in the array
+    
+    Slices:
+        - Slices represent variable-length sequences whlose elements have the same time 
+        - A slice type is written []T; it looks like an array type without a size 
+        - Arrays and slices are intimately connected
+        - A slice is a lightweight data structe that gives access to a subsexzuqnece (perhaps all) of the elements of an array 
+        - A slice has three components, a pointer, a length, a capacity 
+            -> Pointer points to thee first element of an array that is reachable from a slices
+            -> length is the number of slice elements (this can't exceed the capacity)
+            -> capacity: usually the number of elements between the start of the slice and end of the underlying array
+                -> len and cap return these values
+            -> slicing beyond the cap returns a panic, but slicing beyond a len jsut rextends the capacity
+    Finding the type of variable:
+        - type assertions, string formatting, type assertions (switch)

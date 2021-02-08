@@ -1,0 +1,65 @@
+Server-side I/O Performance: Node vs PHP vs Java vs Go 
+Notes made from: https://www.toptal.com/back-end/server-side-io-performance-node-php-java-go
+I/O Basics:
+    - System Calls 
+        -> Your program must ask the OS kernel to perform an I/O peratrion on its behalf 
+            -> This is called a syscall 
+        -> The kernel performs the underlying I/O operation on the physical device, and replies to the syscall 
+    - Blocking vs Non-blocking Calls 
+        -> All syscalls are blocking, however some calls are said to be "nonblocking", as the kernel takes the
+            request, puts it in a queue or buffer somehwere, and immediately returns without waiting, to the syscall 
+    - Scheduling 
+        -> What happens when you have a large number of threads or processes that start blocking 
+            -> Threads share the same memory, processes have own separate memroy space 
+        -> Scheduling is getting a list of proceeses&threads a slice of execution time avaialbe on CPU cores 
+            -> This is done through conext switches 
+            -> Context switches have a cost associated wiht them, the more threads them more context switches 
+    
+    * Nonblocking calls tell the kernel "only call me when you have some new data or event on one of any of these connections"
+        -> Designed to handle large I/O loads and reduce context switching 
+
+PHP: Keep It Simple Approach
+    - PHP Model 
+        1) A HTTP request comes in from a user's browser and hits your apache webserver 
+        2) Apache creates a separate process for each request
+        3) Apache calls PHO and tells it to run the appropriate .php file 
+        4) PHP code executes and does blocking I/O calls 
+    - Reading the php scripts is a blocking call
+    - Pretty simple, as its one process per request, but this doesn't scale well
+        -> Tools provided by the kernel for dealing with high volume I/O are not used 
+
+Java: Multithreaded Approach 
+    - Java Model   
+        1) Java Web Server works by creating a new thread of execution for each request that comes
+        2) This thread eventually calls the functino that you wrote 
+    - Compared to PHP, instead of having a separate process for each connection, we have a separate thread 
+        -> This allows it to share memory, which means being able to share state, cache data 
+        -> But the impact it has on the scheduler is almost identical to php 
+            -> Each request gets a new thread and the various I/O operations block inside that thread until the request is fully handleled
+    - Threads are pooled, so that the cost of creatig them is minimised, but still
+        thousands of connections = thousands of threads are bad for the scheduler
+
+Nodejs: Nonblocking I/O as a first class Citizen
+    - Node.js Model 
+        1) Instead of "Write your code here to handle the request", think "Write code here to start handling the request" 
+        2) Each time you need to do something that involves I/O, you make the request, and give it a callback function 
+    - By using callbacks, node runs nonblockign IO calls, and then runs your callback functions when data is available 
+    - The mechanism for queuing up I/O calls and letting Node handle it and then getting a callback is called the "Event Loop" 
+    - All your code runs on a single thread 
+        -> Whilst the I/O is perfomred using efficient non-blocking tecnhniques, your JS that is doing CPU bound operations runs in a single
+            thread, each chunk of code is blocking the next 
+    - The premise for using node.js, is that I/O operations are the slowest part, thus its most effective to handle these efficietnyl 
+
+Go: Naturally Non-blocking 
+    - Go Model:
+        1) Go contains its own scheduler 
+        2) Instead of each request having its own thread corresponding to its own os thread, it has its own goroutine 
+            -> Go runtime can assign a goroutine to an os thread, or not, or suspend it
+    
+    - In effect, Go is doing something similar to Node, expect that the callback mechanism is built into the implementation of the I/O call
+        and interacts with the scheduler automatically 
+    - Go doesn't suffer from the restruction of having to have all your handler code run on the same thread like go 
+    - Go automatically maps your Goroutines to as many OS threads it deems appropriate based on the code logic
+    - Go gets the best of both worlds, nonblockign IO, and your code looks like its blocking, and is simpler to understand 
+    - The interaction between the Go scheduler and teh OS scheduler handles the rest 
+    - Go allows the use of nonblocking io without having callbacks 

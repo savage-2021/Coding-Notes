@@ -1,0 +1,56 @@
+Composition of several autonomous activities
+We use concurrency to hide the latency of I/O operations and to exploit a modern computer's processors 
+Go enables two styles of concurrent programming 
+Communicating Sequential Processors
+    -> Goroutines and channels 
+    -> A model of concurrency in which valyes are passed between independent activities (goroutines)
+    -> but variables are for the most part, confined to a single atcitiy 
+Goroutines 
+    - Each concurrently executing atcitiy is called a goroutine 
+    - When a go program starts, there is only one goroutine and this calls the main function 
+    - New goroutines are created by the go statement 
+    - The only way for a goroutine to stop another, is if the main returns
+Channels
+    - View channels as the connections between goroutines 
+    - Have to use the built in make function 
+    - as with maps, a channel is a reference to the datastructre craeted by make 
+    - When we copy a channel or pass one as an argument to a function, we are copying a reference
+    - Channels may be compared to another channel, or to nil
+    - ch := make(chan int) 
+    - Channels have two principle operations, send and receive, known as communications 
+    - A send statement transmits a value from one goroutine through the channel, to another goroutine executing a correpsind greceive transmission
+    - <- operator is how it works tbh 
+    - Channels also support a third operator, called close 
+        -> close(ch)
+    - You can create a buffered channel, which acceps an extra argument which is the channel capatict 
+
+Unbuffered Channels 
+    - A send operation on an unbuffered channel blocks the sending goroutine until another goroutine executes a corresponding receive 
+        on the same channel
+    - Conversely, if the receive operation was attempted first, the receiving goroutine is blocked until another goroutine performs a send
+        on the same channel 
+    - Communication over an unbuffered channel causes the sending and receiving goroutines to synchronise 
+    - Unbuffered channels are sometimes called sunchronised channels 
+    - When a value is sent on an unbuffered channel, the reveipt of the value happens before the reawakening of the goroutine
+
+Pipelines 
+    - Channels can be used to connect goroutines together so that the output of one is the input to another 
+    - This is called a pipeline
+    = The program below consists of three goroutines connected by two channels, 
+    - Garbage collectors will close unreachable channels
+    - you can range over a channel to see if its open, instead of testing its second argument (ok)
+
+Unidirectional Pipelines 
+    - As programs grow, it is natural to break up large functions into smaller pieces 
+    - in the pipeline program, the programs naturally divides up into three functions
+    - call channels in and out i guess when receiving them from functions
+
+Buffered Channels 
+    - Have a queue of elements 
+    - The queue's max size is deteremined when its created, by the capacity argument make 
+    - Goroutine Leak: not automatically collected like garbage variables 
+        -> because not automaitlcaly gced, it is important to close them
+        -> bascially when other goroutine code can't execute because a channel is full, and so a goroutine is blocked
+
+Cancellation 
+    - Create a cancellation channel

@@ -1,0 +1,33 @@
+Basic Data Types:
+    - Go's types dallinto four vategories
+        basic, aggregate, reference, interface 
+        Basic: nubers, srings, booleans 
+        Aggregate: Arraygs, Structs
+        Reference: Pointers, slices, maps, functions, channels 
+        interface: interface types
+
+Strings 
+    - A string is an immutable sequence of bytes. Strings may contain arbitrary data, insluding bytes with value o 
+    - Text strings are usually interpreted as UTF-8 encoded sequences of Unicodee code points called runes 
+    - len(string) returns the bumber of bytes not runes in a string
+    - the ith byte of a string is not necessarily the i-th character of a string, because the UTF-8 encoding of a non-ASCII 
+        code point requires two or more bytes
+    - Strings are immutable, the byte sequence of a string can never be changed
+    - Immutability means that it is sade for two copies of a string to share the same underlying memory, making it cheapto copy
+        strings of any length 
+        -> similar to taking the substring of a string, its cheap
+    - Go's source files are always encoded in UTF-8 and Go text strings are conventially interprested as UTF-8, we can include unicode 
+        pointts in string literals 
+        -> Unicode is like a step up ffrom ASCII, but like, it allowes all languages and emojis, and concatenates these into one number
+            which is acalled a unitcode point, or called a Rune in Golang 
+        -> It has over 120000 characters 
+        -> UTF-8 is a variable-legth encodign of Univcode Points, was invented by the founders of unicode 
+        -> Uses between 1 and 4 bytes to encode each rune 
+
+Constants 
+    Constaatns are xpressions whose vaye is known to the copiler and is guaraaenteed to compile atime, not run time 
+    Every constant is a basic type: boolean, string, or number
+
+    A const declaration defines named values that look syntatcially like variables, but obvisluy doesn't change
+    const generator: iota, which is aused to cerate a sequence of related valyes, without spelling out each one explicitly 
+    In a const declation, the valye of iota begins at zero and increments by one for each item in a sequence

@@ -1,0 +1,28 @@
+- Introduced in 2007, announced in 2009
+- Like C, maxium effect, minimum means
+- An open source language 
+- Especially well suited for building infrastrute like networrked servers, and tools and systems for programmers
+    -> But it is a general purpose language
+- It is a popular replacement for untyped scripting languages, because it balances expressiveness with safety 
+    -> Go programs typically run faster than programs writteen in dynamic languages, and suffer far fewercrashes due to unexpected type errors
+
+Origin Paths:
+    Academic Works: CSP (Hoare) -> Squeak (Cardelli&Pike) -> Newsqueak (Pike, 1989) -> Alef (Winterbottom)
+    Languages: Algol -> Pascal -> Modula-2 -> Oberon -> Oberon-2
+               Algol -> C 
+
+    - Rob Pike and others began to experiment with CSP implementations as actual languages 
+        -> 1st was Squeak (A language for communicating with mice)
+
+The Go Project
+    - "Complexity is mltiplicative": fixing a rpoblems by making one part of the system more cpmlex slowly but surely adds complexity to other parts
+    - Features missing that are common in other languages:
+        numeric conversions, no constructors or destructors, no operator overloading, no default parameter valyes, no inheritance, no generics, no exceptions, no macros, no function annottions, no thread local storage
+    - Go has a simpler typed system than most other typed languages
+    - Go encourages awareness of contemporary compuster system design, particularly the importance of locality 
+    - Go's structs and arrays hold their elements directly, 
+        requiring less storage and fewer allocations and pointer indirections than languages use indirect fields
+    - Go's concurrency is based on CSP, for the modern parallel computer 
+        -> The variable size stacks of Go's lightweight threads or goroutines are initially small enough, that creating millions is practical 
+    - Go's standard library provides clean building blocks and APIs for I/O, text processing, grapphics, netowkring, cryto etc, and distributed applications 
+    

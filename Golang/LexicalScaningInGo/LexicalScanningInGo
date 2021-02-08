@@ -17,6 +17,15 @@ Structural Mismatch
         -> A token is a type and a value, but the value can just be sliced from the input string
         -> The lexer remembers where it is in the input and the emit routine just lobs that substring to the caller as the token's value 
 
+    - A problem
+        -> Can't run a goroutine in an initalisation function, its against the rules because go has very clean initaliisation semantics
+            -> You can create one, but it won't run
+        -> this has been forbidden by the language specification (raises tough issues about the order of init)
+        -> Lexer is concurrent, but can't run, which defeatrs the purpose of its concurrent nature 
+
+    - The Fix
+        -> A new API
+            - Hide the channel and buffer it slightly, turning it into a new ring buffer 
 
 
 
