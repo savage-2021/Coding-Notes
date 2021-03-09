@@ -1,0 +1,16 @@
+When working with concurrent coe, timeouts and cancellations are going to turn up frequently
+As Timeouts are crucual to creating a system with behavior you can understand.
+Cancellation is one natural response to a timeout, we'll also explore other reason a concurrent process might be cancelled
+Other reasons to support timeouts:
+    1) System Saturation 
+        -> Liek with Queueing, we may want requests at the edges of our system to timeout, rather than take a long time to field them 
+    2) Stale Data 
+        -> Sometimes data has a window within which is must be processed before more relevant data is Known
+        -> If this window is known beforehand, it would make sense to pass our concurrent process a conext.Context 
+            created with context.WithDeadline or context.WithTimeout
+        -> If the windown is not known beforehand, we'd want the parent of the concurrent process to be able to 
+            cancel the concurrent process when the need for the request is no longer prosent 
+                -> context.WithCancel is perfect for this purpose 
+    3) Attempting to Prevent Deadlocks
+        -> In large distributed systems, it can sometimes be difficult to undertand the way in which data might flow, or what edge cases might turnup
+        -> Attempting to transform your system of a system ofdeadlocks by using timeouts, can transform it to a system of livelocks

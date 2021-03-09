@@ -1,0 +1,6 @@
+The or-channel
+
+- At times you may find yourself wanting to combine one or more done channels into its own done channel
+    -> This channel closes if any of its component channels close 
+- Itts fine to use a seelct statement to do this, btu what id you don't know how many channels you have? 
+- In this case, you can combine these channels together using the or-chanenl pattern

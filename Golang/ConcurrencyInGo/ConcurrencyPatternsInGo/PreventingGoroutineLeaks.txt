@@ -1,0 +1,21 @@
+Preventing Goroutine Leaks 
+    -> Goroutines are cheap and easy to create; its one of the things that makes Go such a productive language 
+    -> The runtime handles multiplexing goroutines onto any number of operating system threads, so that we don't have 
+    to worry about that abstraction
+    -> But they do cost resources and goroutines are not collected by the runtime, so regardless of how small their 
+        memory footprint is, we don't want to leave them lying about our process.
+    -> So how do we ensure they;re cleaned up 
+
+    *Why would a goroutine exist? 
+    - Goroutones represet units of work that may or may not run in parallel with each other 
+    - Termination:
+        -> When it has completed work 
+        -> When it cannot continue its work due to an unrecoverable error 
+        -> Wheh its told you its stopped working 
+    - Theres a network effect with goroutines, if you;'ve begun a goroutine, its most likely cooperating 
+        with several other goroutines in some sort of oranised fashion 
+        -> We can represetn this interconnectedness as a graph
+        -> Whether or not a child goroutine should continue executing might be predicted or acknowledged by the 
+            state of other Goroutines
+        -> The parent goroutine (often the main goroutine) should be able to tell its child goroutines to terminate 
+

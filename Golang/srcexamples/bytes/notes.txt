@@ -1,0 +1,29 @@
+Bytes
+    Package bytes just implements manipulation of byte sices 
+    Byte and Rune
+        -> Rune stores any unicode character as a number, or letter, or whatever as a number 
+        -> Byte stores any ASCII character as a number\
+        -> These numbers can then be formatted using the fmt.Printf("%x", rune/byte) to convert them to hex for instance 
+    Buffer 
+        -> This is pretty cool, its a load of implementatin you can use on a slice of bytes, it allows various reading, and writing methods
+    Reader 
+        -> Like a buffer, but its read only
+
+
+Strings, bytes, runes, and Characters in Go
+    - A string is a read-only slice of bytes
+    - A string holds arbitray bytes
+    - 0x means that the next stuff after it is hex 
+    - \xNN is the notation to define a string constant holding byte values
+        -> \xNN \xNN \xCV \xIO \xe2 
+        -> You can't just print this tho, you have to print it characcter by characcter in a for loop
+            -> it needs to be examined and taken apart
+            -> Or you can format it into a string using hexadecimals
+    - A string stores bytes, not characters. This means that when we store a character value in a string, we store its byte at time representation 
+        -> Indexing a string yields its bytes, not its characters 
+        -> %s is the string, %+q gets the unicode characcter value
+    - The idea of a characteer is hard to define 
+    - "Code Point" <- an item represented by a sinle valye 
+        -> Code Point = Rune , except go defines a rune to have uint32, so programs can be claear when an integer value uses a code point
+    - Range Loops
+        - a for range loop decodes one UTF-8 encoded rune per interation. It goes rune by rune. 

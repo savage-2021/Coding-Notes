@@ -1,0 +1,25 @@
+Error Propagation
+- With concurrent code, especiall distributed systems, its both easy for something to go wrong in your system, and difficult to understand why
+    they happen
+- Error Propagation Philosophy
+    -> Don't view error propagation as secondary or "other" 
+    -> Careful considertatino is given to how data flows through the system, but errors are something that are tolerated and ferried up the stack without
+        much thought, and ultimately dumped in front of the user 
+    -> Go attempted to corrct this bad practice by forcing users to handle errors at every frame in the call stack, but its still common to see errors 
+        treated as second class citizens to the system's control flow 
+- What are Errors?
+    -> Errors indicate that your system has entered a state in which it cannont fulfill an opertion that a user either explicitly or implicilty requested
+    -> Because of this, it needs to relay a few pieces of critical information:
+        1) What happened
+        2) When and Where it occurred (UTC time) 
+        3) How the user can get more information 
+    -> By default, no error will contain all this information without your intervention, therefore you could take the statnce that any error that is propagated
+        to the user without this information is a mistake, and therefore a bug
+    -> This leads to a general frameowkr we can use to think about errors, its possible to place all errors  into one of two caterogies
+        1) Bugs 
+        2) Known edge cases (broken network connections, failed disk writes, etc)
+- CLI Component -> Intermediary Component -> Low Level Component 
+    -> If an error occurs in a low level component, its passed up the stack 
+    -> Within the context of the low level component, the error might be considered well formed, but within the context of our system, it may not be 
+    -> Lets take the stance that at the boundaries of each component, all errors must be wrapped in a well formed-error for the co ponent our code is within
+    

@@ -1,0 +1,14 @@
+Object Orientated Programming - The Go Way
+-> Radically different approach
+
+- Key Concepts
+    -> Does not support inheritance 
+        -> Inheritance has significant drawbacks, especially when it comes to large programs 
+        -> Go supports aggregation and embedding exslusively (composition)
+        -> If a type in a struct is annoymous, then it is an embedded type 
+        -> In Go we use terms types and values instead of class/object/instance 
+        -> Without inheritance, there are no virtual functions.
+            -> Go's answer to this is to support type-safe duck typing 
+    -> Interfaces 
+
+    Custom Types

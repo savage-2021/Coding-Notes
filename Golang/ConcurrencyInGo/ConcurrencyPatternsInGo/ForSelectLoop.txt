@@ -1,0 +1,7 @@
+The for-select Loop
+Something you'll see over and over again in Go programs is the for-select loop 
+2 Reasons for this pattern:
+    - Sending Iteration Variables out on a Channel 
+        -> Often times you'll want to convert somtehing that can be iterated into values on a channel 
+    - Looping infinitely waiting to be stopped 
+        -> this is stopped with a done case

@@ -1,0 +1,9 @@
+- Someimtes youre workign with channels from disparate parts of your system 
+- Unlike pipelines, you can't make any assertions about how a channel will behave when code you're working with 
+    is cancelled via its done channel
+- You don't know if the fact your goroutine was cancelled means the channel you're reading from will have been cancelled 
+- This is why we use a select statement that also selects from the done channel
+    -> This is fine, but it can explode the size of your code 
+- We can fix this by writing a single goroutine to encapsulate the verbosity 
+- You might find edge cases in your code where you need a tight loop utilising a series of select statements, but you should try readbility 
+    and avoid premature optimization

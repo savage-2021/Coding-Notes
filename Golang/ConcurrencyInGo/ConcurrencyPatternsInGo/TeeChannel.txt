@@ -1,0 +1,4 @@
+Sometimes, yo may want to split valyes coming in from a channel so that you can send them off into two separate areas 
+of your codebase.
+Imagine a channel of user commands: you might want to take in a stream of user commands on a channel, send them to someething that executes them
+and also send them to something that logs the commands later for auditing 

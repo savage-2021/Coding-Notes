@@ -1,0 +1,11 @@
+The Context Package
+- Its now in the standard library, that was an independent thing at first
+- 500 lines of code, very small package
+- Main usage is cancellation
+    -> Cancellatin and Propagation 
+    -> Send values
+- A function that 
+- Context.Background()
+    -> You're not reacting to anything else
+    -> No cancellation, or timeout or values
+    -> Just the root, we create a tree of context

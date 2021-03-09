@@ -1,0 +1,41 @@
+We use abstraction to write functions 
+-> A pipeline is just another tool to help you write functions
+-> By using a pipeline, you separate the concerns of each page
+    -> This alows you to mofiy independent stages of code 
+    -> Mix and match how stages are combined independed of modifying the stages 
+    -> You can pocess each stage concurrent to updtream or downstrea stages 
+    -> You can fan-out or rate-limit portions of your pipeline
+-> A stage is just somethign that takes in data, performs some transitinos on it, and sends the databack out
+-> Pipeline stages are kinda similar to funcitonal programing
+-> Make new datastructures, so that funcitons are more pure 
+-> Each stage should take a slice of data, and then return a new slice of data 
+    -> This is known as batch processing 
+    -> This just means that thye operate on chunks of data all at once, instead of one discrete value at a time 
+-> There is also stream processing, where each stage received and emits one element at a time 
+-> Note in the examples in the pipeline.go, in order for the original data to remain unaltered, each stage has to make a new slice of equal length
+    to store the results of its calculations
+    -> This means the memory footprint of our programs at any one time is double the sie of the slide we send into the start of our pipeline 
+-> We can do it otherways, but this increases the load on our range funciton and makes it harder to scale
+-> This effectively means also that we are instantiating our pipeline for every iteration of the loop
+    - > Though its cheap to make funcion calls, we're making three for each iteration of the loop 
+    -> What about concurrency?? One of the benefits of utilising pipelines was the ability to process individial stages concurrently, 
+        -> This is where we could use the go primititve of channels 
+Best Practices for constructing pipelines 
+    -> Channels are uniques suited for constructing pipelines in Go, because they fulfill all of our basic requirements 
+    -> They can recevie and emit values, they can safely be used concurrently, they can be ranged over, and they are reified by the lanuage 
+    -> use a genertor function, which can turna  discrete set of values into a stream
+By using channels in our pipeline, each stage of our pipeline is executing concurrently 
+    -> This means that any stage only need wait for its inputs and to be able send its outputs
+In all the pipelines shown so far, we;ve been using the contraversial interface{} type
+    -> When you need to deal in specific tyopes 
+*Fan-out, Fan-in*
+    Fan-out is a term to deescribe the process of strting multiuple goroutines to handle input from the pipeline
+        -> Consider fanning out if 
+            1) IT doesn't rely on valyes that the stage had calculated before 
+            2) IT takes a long time to run 
+    Fan-in is a term to describe the process of combininig multiple results into one channel 
+    
+    The property of order independence is important becayse you have no guarantee in what order concurrent copies of your stage 
+    will run, nor in what order they will return 
+    -> Have a look at the primes.go example
+    -> Fan out fan in has the criteria of order independence and duration
