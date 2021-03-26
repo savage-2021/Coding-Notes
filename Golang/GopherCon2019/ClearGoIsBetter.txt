@@ -1,0 +1,6 @@
+- If things are complicated, make them look compolicated to stick out to the next reader 
+- Accept interfaces, return structs 
+    - Mke the input interface as general as possible, remember functions should only do one thing and one thing well 
+    - Rethiink the function name once it only does one thing and takes one interface
+- Keep all successfuly statements to the left, so you can follow the code down the page.
+    - This is so the code flows nicely

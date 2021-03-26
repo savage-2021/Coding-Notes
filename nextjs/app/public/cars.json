@@ -1,0 +1,6 @@
+{
+  "data": [
+    { "car": "Tesla", "color": "Red" },
+    { "car": "Rover", "color": "Green" }
+  ]
+}

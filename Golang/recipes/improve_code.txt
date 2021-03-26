@@ -1,0 +1,22 @@
+1) use custom types, for instance, flowing a struct through a channel, throw a custom type of that channel instead
+2) don't concatenate strings, use fmt.Sprintf 
+-----
+    3) When you write a mini package with an interface, provide some default methods (like https://github.com/ernesto-jimenez/httplogger/blob/master/httplogger.go)
+    4) Use a zero generator pattern for use on your types. Everything in go is initalised 0 value, so have checks to check for nil on pointers before calling methods on them
+        -> Zero value: a block of zero-value bytes that is the same size as the type as an instance of that type
+-----
+5) Iterate over arrays by prefixing the bound checking. You can improve this even further by using a goroutine in each for loop uno 
+    $ // The slow way
+    $ for i := 1 ; i < 10 ; i++ {
+    $   fmt.Printf("Element %d is %d\n", i, a[i])
+    $ }
+    $ // The fast way
+    $ subrange := a[1:10]
+    $ for i, v := range subrange {
+    $   fmt.Printf("Element: %d %d\n", i, v)
+    $ }
+6) Use range to iterate over a string, to iterate over each character. The for i := 0; o < len(string); i++ loops over each byte, not each rune
+    -> A characterencoded between UTF-8 is between 1 and 4 bytes long, depending on the character
+7) Slice strings with the UTF8 package instead of the standard way, this stops you getting invalid runes
+8) Try and use Error Delegation when you can, which is to use an inetrface for your error object, which has one method per type of error, which you can then handle/report
+9) If you ever pass a pointer/reference into a channel, you must instnalty discard your copy of the pointer
